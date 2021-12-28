@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\UrlShortener.Core.ApplicationServices\UrlShortener.Core.ApplicationServices.csproj" />
     <ProjectReference Include="..\..\Core\UrlShortener.Core.Domain\UrlShortener.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\UrlShortener.Infra.Data.Sql\UrlShortener.Infra.Data.Sql.csproj" />
   </ItemGroup>
 
 </Project>

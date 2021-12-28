@@ -6,11 +6,13 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using UrlShortener.Core.ApplicationServices.ShortUrls;
 
 namespace UrlShortener.EndPoint.Web.Controllers
 {
     public class UrlController : Controller
     {
+        
         [HttpGet]
         public IActionResult Create()
         {
@@ -21,7 +23,6 @@ namespace UrlShortener.EndPoint.Web.Controllers
         public IActionResult Create(string originalUrl)
         {
             var client = new RestClient("https://localhost:5001/");
-
             var getShortUrlsRequest = new RestRequest("api/v1/ShortUrls", Method.POST);
             getShortUrlsRequest.AddParameter("originalUrl", originalUrl);
             var getResult = client.Post(getShortUrlsRequest);
@@ -37,7 +38,7 @@ namespace UrlShortener.EndPoint.Web.Controllers
         {
             var client = new RestClient("https://localhost:5001/");
             var getShortUrlsRequest = new RestRequest("api/v1/ShortUrls", Method.GET);
-            getShortUrlsRequest.AddParameter("redirectUrlCode", originalUrl.Replace("\"",""));
+            getShortUrlsRequest.AddParameter("redirectUrlCode", originalUrl.Replace("\"", ""));
             var getResult = client.Get(getShortUrlsRequest);
             return Redirect(getResult.Content.Replace("\"", ""));
         }
