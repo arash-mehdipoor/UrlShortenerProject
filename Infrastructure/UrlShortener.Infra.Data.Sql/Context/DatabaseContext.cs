@@ -14,5 +14,10 @@ namespace UrlShortener.Infra.Data.Sql.Context
         {
         }
         public DbSet<ShortUrl> ShortUrls { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(DatabaseContext).Assembly);
+        }
     }
 }
