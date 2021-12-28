@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UrlShortener.Core.Domain.ShortUrl;
+using UrlShortener.Core.Domain.ShortUrls;
 
 namespace UrlShortener.Infra.Data.Sql.Context
 {
