@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UrlShortener.Infra.Data.Sql.Context;
 
 namespace UrlShortener.EndPoint.Api
 {
@@ -28,6 +30,9 @@ namespace UrlShortener.EndPoint.Api
         {
 
             services.AddControllers();
+            services.AddDbContext<DatabaseContext>(c =>
+              c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UrlShortener.EndPoint.Api", Version = "v1" });
@@ -47,7 +52,12 @@ namespace UrlShortener.EndPoint.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors(c =>
+            {
+                c.AllowAnyHeader();
+                c.AllowAnyOrigin();
+                c.AllowAnyMethod();
+            });
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
