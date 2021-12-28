@@ -1,4 +1,5 @@
-﻿using UrlShortener.Core.ApplicationServices.ShortUrls;
+﻿using System.Linq;
+using UrlShortener.Core.ApplicationServices.ShortUrls;
 using UrlShortener.Core.Domain.ShortUrls;
 using UrlShortener.Infra.Data.Sql.Context;
 
@@ -18,6 +19,11 @@ namespace UrlShortener.Infra.Data.Sql.ShortUrls
             _context.ShortUrls.Add(shortUrl);
             _context.SaveChanges();
             return shortUrl.Id;
+        }
+
+        public ShortUrl GetById(int id)
+        {
+           return _context.ShortUrls.SingleOrDefault(s => s.Id == id);
         }
     }
 }

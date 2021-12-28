@@ -12,7 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UrlShortener.Core.ApplicationServices.ShortUrls;
 using UrlShortener.Infra.Data.Sql.Context;
+using UrlShortener.Infra.Data.Sql.ShortUrls;
 
 namespace UrlShortener.EndPoint.Api
 {
@@ -32,7 +34,7 @@ namespace UrlShortener.EndPoint.Api
             services.AddControllers();
             services.AddDbContext<DatabaseContext>(c =>
               c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddTransient<IShortUrlService, ShortUrlRepasitory>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UrlShortener.EndPoint.Api", Version = "v1" });
