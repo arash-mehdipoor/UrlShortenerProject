@@ -33,7 +33,8 @@ namespace UrlShortener.Infra.Data.Sql.ShortUrls
         public void WasObserved(string shorturlCode)
         {
             var shortUrl = _context.ShortUrls.SingleOrDefault(s => s.ShorturlCode == shorturlCode);
-            shortUrl.Observed++;
+            shortUrl.Observed++; 
+            _context.SaveChanges();
         }
     }
 }

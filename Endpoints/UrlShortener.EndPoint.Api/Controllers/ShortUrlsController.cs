@@ -43,10 +43,16 @@ namespace UrlShortener.EndPoint.Api.Controllers
         {
             if (string.IsNullOrEmpty(redirectUrlCode))
                 return NotFound();
-            var shortUrl = _shortUrlService.GetRedirectUrlByPath(redirectUrlCode); 
+            var shortUrl = _shortUrlService.GetRedirectUrlByPath(redirectUrlCode);
             if (shortUrl == null)
+            {
                 return NotFound();
-            return Ok(shortUrl);
+            }
+            else
+            {
+                _shortUrlService.WasObserved(redirectUrlCode);
+                return Ok(shortUrl);
+            }
         }
 
     }
