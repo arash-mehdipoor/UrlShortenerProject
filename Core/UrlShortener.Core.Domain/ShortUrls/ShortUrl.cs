@@ -10,6 +10,7 @@ namespace UrlShortener.Core.Domain.ShortUrls
     {
         public int Id { get; set; }
         public string OriginalUrl { get; set; }
+        public string RedirectUrl { get; set; }
         public int Observed { get; set; }
     }
 }

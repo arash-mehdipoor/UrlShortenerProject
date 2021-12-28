@@ -9,6 +9,7 @@ namespace UrlShortener.Core.ApplicationServices.ShortUrls
 {
     public interface IShortUrlService
     {
-        int Add(ShortUrl shortUrl);
+        string Add(ShortUrl shortUrl);
+        string GetRedirectUrlByPath(string path);
     }
 }

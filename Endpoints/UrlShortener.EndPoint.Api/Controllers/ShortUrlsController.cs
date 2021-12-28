@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using UrlShortener.Core.ApplicationServices.ShortUrls;
 using UrlShortener.Core.Domain.ShortUrls;
+using UrlShortener.EndPoint.Api.Helpers;
 
 namespace UrlShortener.EndPoint.Api.Controllers
 {
@@ -28,12 +31,23 @@ namespace UrlShortener.EndPoint.Api.Controllers
                 {
                     OriginalUrl = url
                 };
-                int shortUrlId = _shortUrlService.Add(shortUrl);
-                return Ok(shortUrlId);
+                string redirectUrl = _shortUrlService.Add(shortUrl);
+                return Ok(redirectUrl);
             }
-            return Ok();
+            return BadRequest();
         }
 
+        [HttpGet("/ShortUrls/RedirectTo/{path:required}", Name = "RedirectTo")]
+        public IActionResult RedirectTo(string path)
+        {
+
+            if (string.IsNullOrEmpty(path))
+                return NotFound();
+            var shortUrl = _shortUrlService.GetRedirectUrlByPath(path);
+            if (shortUrl == null)
+                return NotFound();
+            return Redirect(shortUrl);
+        }
 
     }
 }

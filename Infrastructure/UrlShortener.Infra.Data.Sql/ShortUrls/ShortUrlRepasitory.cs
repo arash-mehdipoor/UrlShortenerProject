@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UrlShortener.Core.ApplicationServices.ShortUrls;
 using UrlShortener.Core.Domain.ShortUrls;
 using UrlShortener.Infra.Data.Sql.Context;
@@ -14,16 +15,19 @@ namespace UrlShortener.Infra.Data.Sql.ShortUrls
             _context = context;
         }
 
-        public int Add(ShortUrl shortUrl)
+        public string Add(ShortUrl shortUrl)
         {
+            string shorturlCode = Guid.NewGuid().ToString();
+            shortUrl.RedirectUrl = shorturlCode;
             _context.ShortUrls.Add(shortUrl);
             _context.SaveChanges();
-            return shortUrl.Id;
+            return shortUrl.RedirectUrl;
         }
 
-        public ShortUrl GetById(int id)
+        public string GetRedirectUrlByPath(string path)
         {
-           return _context.ShortUrls.SingleOrDefault(s => s.Id == id);
+            var shortUrl = _context.ShortUrls.SingleOrDefault(s => s.RedirectUrl == path);
+            return shortUrl.OriginalUrl;
         }
     }
 }
