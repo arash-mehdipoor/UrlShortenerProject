@@ -21,13 +21,27 @@ namespace UrlShortener.EndPoint.Web.Controllers
         public IActionResult Create(string originalUrl)
         {
             var client = new RestClient("https://localhost:5001/");
-          
+
             var getShortUrlsRequest = new RestRequest("api/v1/ShortUrls", Method.POST);
-            getShortUrlsRequest.AddParameter("url", originalUrl);
+            getShortUrlsRequest.AddParameter("originalUrl", originalUrl);
             var getResult = client.Post(getShortUrlsRequest);
+
+            if (getResult.IsSuccessful)
+            {
+                return RedirectToAction(actionName: nameof(ShowWebSite), routeValues: new { originalUrl = getResult.Content });
+            }
             return View();
         }
- 
+
+        public IActionResult ShowWebSite(string originalUrl)
+        {
+            var client = new RestClient("https://localhost:5001/");
+            var getShortUrlsRequest = new RestRequest("api/v1/ShortUrls", Method.GET);
+            getShortUrlsRequest.AddParameter("redirectUrlCode", originalUrl.Replace("\"",""));
+            var getResult = client.Get(getShortUrlsRequest);
+            return Redirect(getResult.Content.Replace("\"", ""));
+        }
+
 
     }
 }

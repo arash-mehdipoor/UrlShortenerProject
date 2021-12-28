@@ -24,13 +24,13 @@ namespace UrlShortener.EndPoint.Api.Controllers
             _shortUrlService = shortUrlService;
         }
         [HttpPost]
-        public IActionResult Create(string url)
+        public IActionResult Create([FromForm] string originalUrl)
         {
-            if (!string.IsNullOrEmpty(url))
+            if (!string.IsNullOrEmpty(originalUrl))
             {
                 var shortUrl = new ShortUrl
                 {
-                    OriginalUrl = url
+                    OriginalUrl = originalUrl
                 };
                 string redirectUrl = _shortUrlService.Add(shortUrl);
                 return Ok(redirectUrl);
@@ -38,7 +38,7 @@ namespace UrlShortener.EndPoint.Api.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/ShortUrls/RedirectTo/{redirectUrlCode:required}", Name = "RedirectTo")]
+        [HttpGet]
         public IActionResult RedirectTo(string redirectUrlCode)
         {
             if (string.IsNullOrEmpty(redirectUrlCode))
