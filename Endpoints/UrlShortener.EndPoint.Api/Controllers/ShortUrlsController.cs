@@ -12,7 +12,7 @@ using UrlShortener.EndPoint.Api.Helpers;
 
 namespace UrlShortener.EndPoint.Api.Controllers
 {
-    [Route("api/v{version:apiVersion}[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1")]
     [ApiController]
     public class ShortUrlsController : ControllerBase

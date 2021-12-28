@@ -21,9 +21,10 @@ namespace UrlShortener.EndPoint.Web.Controllers
         public IActionResult Create(string originalUrl)
         {
             var client = new RestClient("https://localhost:5001/");
-            var getShortUrlsRequest = new RestRequest("api/ShortUrls/", Method.POST);
+          
+            var getShortUrlsRequest = new RestRequest("api/v1/ShortUrls", Method.POST);
             getShortUrlsRequest.AddParameter("url", originalUrl);
-            var getResult = client.Get(getShortUrlsRequest);
+            var getResult = client.Post(getShortUrlsRequest);
             return View();
         }
  
