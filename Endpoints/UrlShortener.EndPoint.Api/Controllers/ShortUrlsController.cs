@@ -12,7 +12,8 @@ using UrlShortener.EndPoint.Api.Helpers;
 
 namespace UrlShortener.EndPoint.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}[controller]")]
+    [ApiVersion("1")]
     [ApiController]
     public class ShortUrlsController : ControllerBase
     {
@@ -37,16 +38,15 @@ namespace UrlShortener.EndPoint.Api.Controllers
             return BadRequest();
         }
 
-        [HttpGet("/ShortUrls/RedirectTo/{path:required}", Name = "RedirectTo")]
-        public IActionResult RedirectTo(string path)
+        [HttpGet("/ShortUrls/RedirectTo/{redirectUrlCode:required}", Name = "RedirectTo")]
+        public IActionResult RedirectTo(string redirectUrlCode)
         {
-
-            if (string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(redirectUrlCode))
                 return NotFound();
-            var shortUrl = _shortUrlService.GetRedirectUrlByPath(path);
+            var shortUrl = _shortUrlService.GetRedirectUrlByPath(redirectUrlCode); 
             if (shortUrl == null)
                 return NotFound();
-            return Redirect(shortUrl);
+            return Ok(shortUrl);
         }
 
     }

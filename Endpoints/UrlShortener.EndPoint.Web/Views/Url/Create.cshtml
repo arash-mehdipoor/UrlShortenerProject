@@ -1,0 +1,17 @@
+﻿@model UrlShortener.Core.Domain.ShortUrls.ShortUrl
+@{ ViewData["Title"] = "ایجاد لینک کوتاه"; }
+
+<br />
+
+<div class="card">
+    <form asp-action="Create">
+        <div class="form-horizontal">
+            <div class="input-group input-group-lg">
+                <input asp-for="OriginalUrl" class="form-control" placeholder="لطفا لینک خود را وارد نمایید" />
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>

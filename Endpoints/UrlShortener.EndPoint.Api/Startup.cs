@@ -35,6 +35,12 @@ namespace UrlShortener.EndPoint.Api
             services.AddDbContext<DatabaseContext>(c =>
               c.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IShortUrlService, ShortUrlRepasitory>();
+            services.AddApiVersioning(option =>
+            {
+                option.AssumeDefaultVersionWhenUnspecified = true;
+                option.DefaultApiVersion = new ApiVersion(1, 0);
+                option.ReportApiVersions = true;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UrlShortener.EndPoint.Api", Version = "v1" });

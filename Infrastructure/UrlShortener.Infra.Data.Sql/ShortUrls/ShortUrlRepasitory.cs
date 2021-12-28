@@ -18,16 +18,22 @@ namespace UrlShortener.Infra.Data.Sql.ShortUrls
         public string Add(ShortUrl shortUrl)
         {
             string shorturlCode = Guid.NewGuid().ToString();
-            shortUrl.RedirectUrl = shorturlCode;
+            shortUrl.ShorturlCode = shorturlCode;
             _context.ShortUrls.Add(shortUrl);
             _context.SaveChanges();
-            return shortUrl.RedirectUrl;
+            return shortUrl.ShorturlCode;
         }
 
-        public string GetRedirectUrlByPath(string path)
+        public string GetRedirectUrlByPath(string shorturlCode)
         {
-            var shortUrl = _context.ShortUrls.SingleOrDefault(s => s.RedirectUrl == path);
+            var shortUrl = _context.ShortUrls.SingleOrDefault(s => s.ShorturlCode == shorturlCode);
             return shortUrl.OriginalUrl;
+        }
+
+        public void WasObserved(string shorturlCode)
+        {
+            var shortUrl = _context.ShortUrls.SingleOrDefault(s => s.ShorturlCode == shorturlCode);
+            shortUrl.Observed++;
         }
     }
 }
